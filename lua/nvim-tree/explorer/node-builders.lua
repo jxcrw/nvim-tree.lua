@@ -39,6 +39,21 @@ end
 function M.file(parent, absolute_path, name)
   local ext = string.match(name, ".?[^.]+%.(.*)") or ""
 
+  local function startswith(text, prefix)
+    return text:find(prefix, 1, true) == 1
+  end
+
+  local name_no_ext = ""
+  if string.find(name, "[.]") then
+    if startswith(name, ".") then
+      name_no_ext = name
+    else
+      name_no_ext = name:gsub("." .. ext, "")
+    end
+  else
+    name_no_ext = name
+  end
+
   return {
     type = "file",
     absolute_path = absolute_path,
@@ -46,6 +61,7 @@ function M.file(parent, absolute_path, name)
     extension = ext,
     fs_stat = vim.loop.fs_stat(absolute_path),
     name = name,
+    name_no_ext = name_no_ext,
     parent = parent,
   }
 end

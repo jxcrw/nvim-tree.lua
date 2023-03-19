@@ -189,7 +189,7 @@ function Builder:_build_file(node)
   local icon = self:_build_file_icon(node)
 
   local hl
-  if vim.tbl_contains(self.special_files, node.absolute_path) or vim.tbl_contains(self.special_files, node.name) then
+  if vim.tbl_contains(self.special_files, node.absolute_path) or vim.tbl_contains(self.special_files, node.name_no_ext) then
     hl = "NvimTreeSpecialFile"
   elseif node.executable then
     hl = "NvimTreeExecFile"
@@ -197,7 +197,7 @@ function Builder:_build_file(node)
     hl = "NvimTreeImageFile"
   end
 
-  return icon, { str = node.name, hl = hl }
+  return icon, { str = node.name_no_ext, hl = hl }
 end
 
 ---@param node table
